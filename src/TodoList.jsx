@@ -39,40 +39,71 @@ function TodoList() {
   };
 
   return (
-    <div>
-      <h1>Todo List</h1>
-      <input
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        placeholder="เพิ่มงานใหม่"
-      />
-      <button onClick={addTodo}>เพิ่ม</button>
-      <ul>
-        {todos.map(todo => (
-          <li key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() => toggleComplete(todo.id)}
-            />
-            {editId === todo.id ? (
-              <>
-                <input
-                  value={editText}
-                  onChange={e => setEditText(e.target.value)}
-                />
-                <button onClick={() => saveEdit(todo.id)}>บันทึก</button>
-              </>
-            ) : (
-              <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-                {todo.text}
-              </span>
-            )}
-            <button onClick={() => startEdit(todo.id, todo.text)}>แก้ไข</button>
-            <button onClick={() => deleteTodo(todo.id)}>ลบ</button>
-          </li>
-        ))}
-      </ul>
+    <div className="todo-center-fixed">
+      <div className="todo-container">
+        <h1 className="todo-title">Todo List</h1>
+        <form
+          className="todo-form"
+          onSubmit={e => {
+            e.preventDefault();
+            addTodo();
+          }}
+        >
+          <input
+            className="todo-input"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="เพิ่มงานใหม่"
+          />
+          <button className="todo-add-btn" type="submit">เพิ่ม</button>
+        </form>
+        <ul className="todo-list">
+          {todos.map(todo => (
+            <li className="todo-item" key={todo.id}>
+              <span className="todo-dot">•</span>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleComplete(todo.id)}
+              />
+              {editId === todo.id ? (
+                <>
+                  <input
+                    className="todo-input"
+                    style={{ width: 100, marginLeft: 6 }}
+                    value={editText}
+                    onChange={e => setEditText(e.target.value)}
+                  />
+                  <button
+                    className="todo-edit-btn"
+                    style={{ marginLeft: 6 }}
+                    onClick={() => saveEdit(todo.id)}
+                  >บันทึก</button>
+                </>
+              ) : (
+                <span
+                  className="todo-status"
+                  style={{
+                    textDecoration: todo.completed ? 'line-through' : 'none',
+                    marginLeft: 8,
+                    marginRight: 12
+                  }}
+                >
+                  {todo.text}
+                </span>
+              )}
+              <button
+                className="todo-edit-btn"
+                onClick={() => startEdit(todo.id, todo.text)}
+              >แก้ไข</button>
+              <button
+                className="todo-delete-btn"
+                onClick={() => deleteTodo(todo.id)}
+              >ลบ</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
